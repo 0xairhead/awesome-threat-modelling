@@ -40,7 +40,7 @@ An API Gateway is a prime target for spoofing attempts because it acts as the fr
 #### Mitigation: Strong Authentication & Mutual TLS
 
 1.  **Strict API Key/JWT Validation:** The gateway must be the first line of defense for authenticating external clients.
-    ```
+    ```javascript
     // Pseudocode at API Gateway
     function authenticateRequest(request) {
         const authHeader = request.headers['Authorization'];
@@ -96,7 +96,7 @@ Attackers might try to alter requests or responses to achieve unauthorized actio
 #### Mitigation: Input Validation & Integrity Checks
 
 1.  **Comprehensive Input Validation at the Gateway:** The API Gateway should perform strict schema validation (e.g., OpenAPI/Swagger definitions) on all incoming requests before forwarding them to downstream services. This filters out malformed or malicious inputs early.
-    ```
+    ```javascript
     // Pseudocode at API Gateway (using an OpenAPI schema validator)
     function validateAndForward(request) {
         const apiSchema = loadOpenAPISchema(request.path);
@@ -139,7 +139,7 @@ Without proper logging and accountability, a malicious actor (or even a legitima
     *   Correlation/Trace ID for distributed tracing
     *   Latency
     
-    ```
+    ```javascript
     // Pseudocode for audit logging at Gateway
     function logRequest(request, response) {
         const auditEntry = {
@@ -173,7 +173,7 @@ The API Gateway is at the boundary of your system, making it a critical point to
 #### Mitigation: Strict Routing & Data Filtering
 
 1.  **Strict Routing Rules & Endpoint Whitelisting:** The API Gateway should only expose specific, well-defined public API endpoints. It should never directly proxy internal service paths or allow arbitrary access.
-    ```
+    ```javascript
     // Pseudocode for API Gateway routing
     const routes = {
         '/api/v1/users': 'users-service',
@@ -223,7 +223,7 @@ API Gateways are a common target for DoS attacks as they are the public entry po
 #### Mitigation: Limits, Circuit Breakers & Resiliency
 
 1.  **Robust Rate Limiting:** Implement strict rate limiting based on IP address, API key, authenticated user, or a combination. This prevents individual clients from monopolizing resources.
-    ```
+    ```javascript
     // Pseudocode for API Gateway rate limiting
     const rateLimiter = new RateLimiter({
         windowMs: 60 * 1000, // 1 minute
@@ -260,7 +260,7 @@ The API Gateway is a crucial enforcement point for authorization. Misconfigurati
 #### Mitigation: Centralized Authorization & Least Privilege
 
 1.  **Centralized Authorization Enforcement:** The API Gateway should ideally enforce fine-grained authorization policies (e.g., Role-Based Access Control - RBAC, or Attribute-Based Access Control - ABAC) based on the authenticated user's roles and the requested resource/action. This can offload authorization logic from individual microservices and provide a consistent security posture.
-    ```
+    ```javascript
     // Pseudocode at API Gateway for authorization
     function authorizeRequest(request, user) {
         const requiredPermission = getPermissionForRoute(request.method, request.path);
